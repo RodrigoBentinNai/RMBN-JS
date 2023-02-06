@@ -1,6 +1,37 @@
-h1{
-    color: red;
+body{
+    background-color: aqua;
 }
-h2{
+h1{
+    color: goldenrod;
+    text-align: center;
+    font-weight: bold;
+    font-size: 3rem;
+}
+.estiloBoton{
+    border-radius: 1rem;
+    padding: 0.3rem;
+    text-align: center;
+    background-color: black;
+    color:white;
+    font-weight: bold;
+}
+.estiloBoton:hover{
+    background-color: white;
     color: blue;
+}
+.item .nombre {
+    font-weight: bold;
+}
+.item .precio {
+    color: red;
+    font-weight: bolder;
+}
+.item div {
+    padding: 5px 0;
+}
+.estiloCarro{
+    display: flex;
+    justify-content: end;
+    position: fixed;
+    right: 2rem;
 }

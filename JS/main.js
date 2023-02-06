@@ -1,6 +1,8 @@
 //RODRIGO MARIO BENTIN NAI
 //"APP DE STOCK PARA MATERIALES DE CONSTRUCCION"
 
+
+//PREENTREGA 1
 /*
 let material = 0;
 
@@ -26,7 +28,9 @@ case "3":
 break;
 */
 
-let userName = "rodrigo"
+
+//PREENTREGA 2
+/*let userName = "rodrigo"
 let password = "1357";
 
 
@@ -142,3 +146,127 @@ if (login()) {
     alert("Usuario o contraseña Incorrecta \nIntente loguearse nuevamente en unos instantes")
 }
 alert("Sesión Finalizada")
+*/
+
+//PRE-ENTREGA 3
+//carro materiales para la construccion
+let miCarrito = [];
+function comenzar() {
+  bienvenido();
+  menu();
+  mensaje();
+  devolver();
+}
+
+function bienvenido() {
+  const miTitulo = document.createElement("h1");
+  miTitulo.innerHTML = '"RB-Materiales"';
+  document.body.appendChild(miTitulo);
+}
+
+function menu() {
+  materialesTipo.forEach((tipo) => {
+    const miBoton = document.createElement("button");
+    miBoton.setAttribute("class", "estiloBoton");
+    miBoton.setAttribute("id", `${tipo.id}`);
+    miBoton.innerHTML = tipo.nombre;
+
+    document.body.appendChild(miBoton);
+  });
+}
+
+function mensaje() {
+  const miMensaje = document.createElement("p");
+  miMensaje.innerHTML = "Seleccionar Material:";
+  document.body.appendChild(miMensaje);
+  misBotones();
+}
+
+function misBotones() {
+  let div1 = document.createElement("div");
+  document.body.appendChild(div1);
+  let div2 = document.createElement("div");
+  div2.setAttribute("id", "elementos");
+  document.body.appendChild(div2);
+  let botones = document.getElementsByClassName("estiloBoton");
+
+  for (const botons of botones) {
+    botons.addEventListener("click", () => {
+      div1.innerHTML = "";
+      let mats = materialesTipo.find((item) => item.id == botons.id);
+      div1.innerHTML = `<h2>${mats.nombre}</h2>`;
+      let galeria = materiales.filter(
+        (product) => product.tipo == botons.id
+      );
+      renderizarMateriales(galeria);
+    });
+  }
+}
+
+function renderizarMateriales(arr) {
+  const div = document.getElementById("elementos");
+  div.innerHTML = "";
+  arr.map((el) => {
+    let id = el.id;
+    let nombre = el.nombre;
+    let precio = el.precio;
+    let stock = el.stock;
+    let siExiste;
+    if (stock > 0) {
+      siExiste = `<div class="actions">
+      <button class="agregar" id=${id}>agregar</button>
+      </div>`;
+    } else {
+      siExiste = `<div class="actions">
+      Sin Stock!
+      </div>`;
+    }
+    div.innerHTML += `
+          <div class="item">
+              <div class="nombre">•${nombre}</div>
+              <div class="precio">$ ${precio} x Un</div>
+              <div class="cantidad">${stock} Unidades</div>
+              ${siExiste}
+          </div>`;
+  });
+  sumarAlCarro();
+}
+
+function sumarAlCarro() {
+  let boTonAgregar = document.getElementsByClassName("agregar");
+  for (const botones of boTonAgregar) {
+    botones.addEventListener('click',()=>{
+      let producto = materiales.find((item) => item.id == botones.id);
+      miCarrito.push(producto);
+      verCarro(producto);
+      totalEnCarro()
+      localStorage.setItem('En El Carro', JSON.stringify(miCarrito))
+    })
+    
+  }
+}
+
+function totalEnCarro(){
+  const total = document.getElementById('TOTAL')
+  total.innerText = miCarrito.reduce((acc,el)=> acc + el.precio,0)
+}
+
+function verCarro(product){
+  const carrito = document.getElementById('En El Carro')
+let li = document.createElement('li')
+li.innerHTML += `${product.nombre} ${product.precio}`
+carrito.appendChild(li)
+}
+
+function devolver() {
+  let devolverLS = JSON.parse(localStorage.getItem('En El Carro'))
+  if(devolverLS){
+    devolverLS.forEach(item=>{
+      verCarro(item)
+      miCarrito.push(item)
+      totalEnCarro()
+    })
+  }
+}
+
+comenzar()
